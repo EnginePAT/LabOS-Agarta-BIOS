@@ -20,7 +20,8 @@ IMAGE:=labos-agarta-x86_64-bios-2026.01.iso
 
 
 # Object files
-OBJS:=$(BUILD_DIR)/boot.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/vga.o
+OBJS:=$(BUILD_DIR)/boot.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/vga.o $(BUILD_DIR)/gdt.o $(BUILD_DIR)/gdt_s.o \
+	$(BUILD_DIR)/util.o $(BUILD_DIR)/system.o $(BUILD_DIR)/idt.o $(BUILD_DIR)/idt_s.o $(BUILD_DIR)/pit.o
 
 
 #
@@ -36,6 +37,7 @@ $(IMAGE): $(OBJS)
 #
 # Build the source files into object files
 #
+# Core kernel
 $(BUILD_DIR)/boot.o: $(SRC_DIR)/boot.asm | $(BUILD_DIR)
 	$(ASM) $< -f elf -o $@
 
@@ -43,6 +45,32 @@ $(BUILD_DIR)/kernel.o: $(SRC_DIR)/kernel.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/vga.o: $(SRC_DIR)/vga/vga.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+
+# System utilities
+$(BUILD_DIR)/util.o: $(SRC_DIR)/util.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/system.o: $(SRC_DIR)/system.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+
+# Memory management sources
+$(BUILD_DIR)/gdt.o: $(SRC_DIR)/mm/gdt.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/gdt_s.o: $(SRC_DIR)/mm/gdt.asm | $(BUILD_DIR)
+	$(ASM) $< -f elf -o $@
+
+$(BUILD_DIR)/idt.o: $(SRC_DIR)/mm/idt.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/idt_s.o: $(SRC_DIR)/mm/idt.asm | $(BUILD_DIR)
+	$(ASM) $< -f elf -o $@
+
+
+$(BUILD_DIR)/pit.o: $(SRC_DIR)/mm/pit.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) $< -o $@
 
 

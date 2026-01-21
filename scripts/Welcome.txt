@@ -1,0 +1,5 @@
+Welcome to LabOS Agarta version 2026.01 Alpha!
+
+This OS currently runs on the x86_64 BIOS architecture, but there are plans for both Arm64 (Aarch64) and x86_64 UEFI.
+
+Thanks!

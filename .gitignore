@@ -1,2 +1,3 @@
-build/*
-
+build/
+labos-agarta-x86_64-bios-2026.01.iso
+initrd.img
